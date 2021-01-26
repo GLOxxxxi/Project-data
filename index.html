@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="vue.js" type="text/javascript" charset="UTF-8"></script>
+	</head>
+	<body>
+		<div id="app" >
+			<!-- //split 拆分成数组 ，reverse 倒叙 join 组合 -->
+			{{message}} 
+			<button @click="chage">变变变。。。</button>
+			<br>
+			<p v-bind:class="color">{{num + 1}}</p>
+			<br>
+			<a v-bind:href="url">thymeleaf官网</a>
+			<div @click="click1">
+				<div v-bind:class="{active : isActive}" @click.stop="click2"
+				style = "width: 200px; height: 200px;text-align: center;line-height: 200px;">
+					<!-- @click.stop修饰 点击后不触发父级的点击事件 -->
+					点我。。。。
+				</div>
+			</div>
+			<div v-bind:class="[isActive?'active':'',isGreen?'green':'']">
+				<!-- 动态分配class -->
+				obg
+			</div>
+			<div v-if="type === 'A'">
+				<!-- v-if有更高的 切换开销 -->
+				A
+			</div>
+			<div v-else-if="type === 'B'">
+				B
+			</div>
+			<div v-else>
+				NOT A or B
+			</div>
+			<div v-show="ok">
+				<!-- v-show虽然不显示 但是已经渲染。如果有频繁的切换属性最好使用v-show，有更高的渲染开销 -->
+				zhende ok
+			</div>
+		</div>
+		<h1 id="apps" > {{name}}</h1>
+		<div id="table">
+			<ul>
+				<!-- 遍历数组 -->
+				<li v-for="item in items">
+					{{item.messages}}
+				</li>
+			</ul>
+			<ul>
+				<!-- 添加索引和键值 -->
+				<li v-for="value,key,index in object">
+					{{index}} .{{key}} : {{value}}
+				</li>
+			</ul>
+			<button @click="apd += 1">{{apd}}</button>
+			<!-- 访问原生DOM -->
+			<button @dblclick="greet('abc',$event)"> greet</button>
+			<!-- 双向绑定 -->
+			<input v-model="msg" placeholder=" edit me" />
+			<p>Message is: {{msg}}</p>
+			<!-- checkbox多选框 并取值 -->
+			<input type="checkbox" id="jack" value="Jack" v-model="checkedName"/>
+			<label for="jack">Jack</label>
+			<input type="checkbox" id="kelee" value="Kelee" v-model="checkedName"/>
+			<label for="Kelee">Kelee</label>
+			<input type="checkbox" id="zhongli" value="ZhongLi" v-model="checkedName"/>
+			<label for="zhongli">ZhongLi</label>
+			<br>
+			<span>Checked names : {{checkedName}}</span>
+			<br>
+			<!-- radio单选框 并取值 -->
+			<input type = "radio" id = "one" value = "1" v-model="picked" />
+			<label for="one">1</label>
+			<br>
+			<input type = "radio" id = "two" value = "2" v-model="picked"/>
+			<label for="two">2</label>
+			<br>
+			<span>Picked : {{picked}}</span>
+		</div>
+		<script type="text/javascript">
+			var app = new Vue({
+			el: '#app',
+			data: {
+				message: 'Hello Vue!',
+				color:'red',
+				num:10,
+				url:"https://www.thymeleaf.org",
+				isActive:true,
+				isGreen:true,
+				type:"",
+				ok:false,
+				init:"weisha"
+			},
+			methods:{
+				chage:function(e){
+					if(app.$data.color == 'blue'){
+						app.$data.color = 'red';
+					}else if(app.$data.color == 'red')
+					app.$data.color = 'blue';
+				},
+				click1:function(){
+					console.log('点击事件1')
+				},
+				click2:function(){
+					console.log('点击事件2')
+				},
+			
+			}
+			});
+		
+			var data = {name : 1}
+			var vm = new Vue({
+				el:'#apps',
+				data:data,
+		
+			})
+			data.name = "no"
+			
+			//观察变量变化的方法
+			// vm.$watch('name',function(newVal, oldVal){
+			// 	console.log(newVal,oldVal)
+			// })
+			vm.$data.name = "tst"
+			
+			//遍历 表格
+			var table = new Vue({
+				el:'#table',
+				data:{
+					items:[
+						{messages:'JS'},
+						{messages:'Foo!'},
+						{messages:'Foo!'}
+					],
+					object:{
+						title: '好耶',
+						author: '可莉'
+					},
+					apd:0,
+					msg:"",
+					checkedName:[],
+					picked:""
+				},
+				methods:{
+					greet:function(res, e){
+						alert(table.$data.object.title)
+						alert(res)
+						console.log(e)
+					}
+				}
+			})
+		</script>
+		<style>
+			.red{color: red;}
+			.blue{color: blue;font-size: 50px;}
+			.active{
+				background-color: aqua;
+			}
+			.green{color: green;}
+		</style>
+	</body>
+</html>

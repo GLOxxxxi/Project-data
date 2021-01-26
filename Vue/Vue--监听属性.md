@@ -1,0 +1,60 @@
+# Vue--监听属性
+
+### 1.watch
+
+  vue可以通过watch来监听属性值的变化。
+
+```html
+<div id="div1">
+     
+    <table align="center" >
+        <tr class="firstLine">
+            <td>人民币</td>
+            <td>美元</td>
+        </tr>      
+        <tr>
+            <td align="center" colspan="2">
+            汇率： <input type="number" v-model.number="exchange" />
+            </td>
+        </tr>
+         
+        <tr>
+         
+            <td align="center">
+                ￥: <input type="number" v-model.number = "rmb"  />
+            </td>
+            <td align="center">
+                $: <input type="number" v-model.number = "dollar"   />
+            </td>
+        </tr>
+    </table>
+   
+</div>
+      
+<script>
+    
+new Vue({
+      el: '#div1',
+      data: {
+          exchange:6.4,
+          rmb:0,
+          dollar:0
+      },
+      watch:{
+          rmb:function(val) {
+              this.rmb = val;
+              this.dollar = this.rmb / this.exchange;
+          },
+          dollar:function(val) {
+              this.dollar = val;
+              this.rmb = this.dollar * this.exchange;
+          },
+      }
+       
+    })
+      
+</script>
+```
+
+
+
